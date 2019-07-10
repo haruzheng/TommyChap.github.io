@@ -2,11 +2,22 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Short URL</title>
+	<META HTTP-EQUIV="EXPIRES" CONTENT="0">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<title>Conversion URL</title>
 </head>
 <body>
+	<p>請記得開啟跳窗權限</p>
+	<button id='btn'>點擊前往</button>
 	<script>
-		document.write(location.pathname);
+		var btn = $('#btn');
+		btn.click(function () {
+			//開啟一個不被攔截的新視窗
+			var newWindow = window.open(location.search.split('?url=')[1], '_blank');
+		});
+		setTimeout(function(){
+			btn.click();
+		}, 1000);
 	</script>
 </body>
 </html>
