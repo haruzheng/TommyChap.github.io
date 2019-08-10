@@ -17,6 +17,7 @@
 	<canvas id="list" class="chartjs" width="1080px" height="1780px" style="display: none; width: 1080px; height: 1780px;"></canvas>
 	<script>
 		var number = 1;
+		var select = "true";
 		var data = {
 			"labels": [
 				["2019/03/23", "台科路跑"],
@@ -45,6 +46,30 @@
 				"borderWidth": 1
 			}]
 		};
+		var XA = [{
+					scaleLabel: {
+						display: true,
+						labelString: '距離',
+						fontSize: 60
+					},
+					ticks: {
+						// Include a dollar sign in the ticks
+						callback: function(value, index, values) {
+							return value + 'KM';
+						},
+						fontSize: 48,
+						stepSize: 21,
+						max: 60,
+						min: 1,
+					}
+				}];
+		var YA = [{
+					ticks: {
+						fontSize: 36
+					}
+				}]
+		var xa = XA;
+		var ya = YA;
 		var labels_array;
 		var km_array;
 		var struct_array = [];
@@ -60,11 +85,25 @@
 			data.labels = labels_array;
 			data.datasets[0].data = km_array;
 		}
-		makeChart();
+		//makeChart();
 		function makeChart() {
 			structtodata();
+			var type = document.getElementById("type").value;
+			if(type == "true") {
+				select = "horizontalBar";	//  width: 1080px; height: 1780px;
+				document.getElementById("list").style.height = "1780px";
+				document.getElementById("list").style.width = "1080px";
+				xa = XA;
+				ya = YA;
+			} else {
+				select = "bar";
+				document.getElementById("list").style.height = "1080px";
+				document.getElementById("list").style.width = "1780px";
+				xa = YA;
+				ya = XA;
+			}
 			new Chart(document.getElementById("list"), {
-				"type": "horizontalBar",
+				"type": select,
 				"data": data,
 				"options": {
 					title: {
@@ -73,28 +112,8 @@
 						fontSize: 104
 					},
 					scales: {
-						xAxes: [{
-							scaleLabel: {
-								display: true,
-								labelString: '距離',
-								fontSize: 60
-							},
-							ticks: {
-								// Include a dollar sign in the ticks
-								callback: function(value, index, values) {
-									return value + 'KM';
-								},
-								fontSize: 48,
-								stepSize: 21,
-								max: 60,
-								min: 1,
-							}
-						}],
-						yAxes: [{
-							ticks: {
-								fontSize: 36
-							}
-						}]
+						xAxes: xa,
+						yAxes: ya
 					},
 					legend: {
 						display: false,
@@ -189,6 +208,10 @@
 	<center>
 		<div id="step_1" style="display: block;">
 			<input id="number" type="number" max="15" min="1" value="1" onchange="if(this.value>15)this.value=15;if(this.value<1)this.value=1;this.value=Math.floor(this.value);" style="width: 700px; height: 120x; font-size: 120px;">
+			<select id="type" style="width: 700px; height: 120x; font-size: 120px;">
+				<option value="true" selected>直式</option>
+				<option value="false">橫式</option>
+			</select>
 			<button onclick="gotoStep2()" style="width: 700px; height: 120x; font-size: 120px;">下一步</button>
 		</div>
 		<div id="step_2" style="display: none;">
