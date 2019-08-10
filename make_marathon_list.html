@@ -83,12 +83,13 @@
 								ctx.fillText(data, bar._model.base + (bar._model.x - bar._model.base) / 2, bar._model.y);
 							});
 						});
-						uri = document.getElementById("list").toBase64Image();
+						//uri = document.getElementById("list").toBase64Image();
 					}
 				},
 				bezierCurve : false
 			}
-		}).toBase64Image();
+		});
 	</script>
+	<a href="#" download="marathon.png" onclick="this.href=document.getElementById('list').toDataURL();" >下載</a>
 </body>
 </html>
