@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!--網頁標頭設定-->
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+	<meta http-equiv="EXPIRES" content="0">
+
+	<!--作者資訊-->
+	<meta name="description" content="生成馬拉松紀錄圖">
+	<meta name="author" content="TommyChap">
+	<meta name="keywords" content="馬拉松, 紀錄, 產生器">
+	<title>馬拉松紀錄產生器</title>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</head>
+<body>
+	<canvas id="list" class="chartjs" width="1080px" height="1780px" style="display: none; width: 1080px; height: 1780px;"></canvas>
+	<script>
+		var number = 1;
+		var select = "true";
+		var data = {
+			"labels": [
+				["2019/03/23", "台科路跑"],
+				["2019/05/11", "碧潭馬"],
+				["2019/05/18", "台北星光半程馬"],
+				["2019/07/27", "桃園星光馬"],
+				["2019/10/27", "Pink Run"],//, "裙襬澎澎RUN"],
+				["2019/11/02", "太魯閣馬"],
+				["2019/12/21", "西濱彰化半程馬"]
+			],
+			"datasets": [{
+				"data": [6, 21, 11, 21, 10, 42, 21],
+				"fill": true,
+				"backgroundColor": [
+					"rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)", "rgba(255, 205, 86, 0.2)",
+					"rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(153, 102, 255, 0.2)",
+					"rgba(201, 203, 207, 0.2)", "rgba(200, 64, 100, 0.2)", "rgba(25, 146, 164, 0.2)",
+					"rgba(101, 103, 207, 0.2)", "rgba(22, 164, 150, 0.2)", "rgba(125, 246, 64, 0.2)",
+					"rgba(231, 30, 156, 0.2)", "rgba(200, 64, 100, 0.2)", "rgba(25, 126, 114, 0.2)"
+				],
+				"borderColor": [
+					"rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)",
+					"rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)",
+					"rgb(201, 203, 207)", "rgba(200, 64, 100)", "rgba(25, 146, 164)",
+					"rgba(101, 103, 207)", "rgba(22, 164, 150)", "rgba(125, 246, 64)",
+					"rgba(231, 30, 156)", "rgba(200, 64, 100)", "rgba(25, 126, 114)"
+				],
+				"borderWidth": 1
+			}]
+		};
+		makeChart();
+		function makeChart() {
+			new Chart(document.getElementById("list"), {
+				"type": "horizontalBar",
+				"data": data,
+				"options": {
+					title: {
+						display: true,
+						text: '馬拉松備忘錄',
+						fontSize: 104
+					},
+					scales: {
+						xAxes: [{
+							scaleLabel: {
+								display: true,
+								labelString: '距離',
+								fontSize: 60
+							},
+							ticks: {
+								// Include a dollar sign in the ticks
+								callback: function(value, index, values) {
+									return value + 'KM';
+								},
+								fontSize: 48,
+								stepSize: 21,
+								max: 60,
+								min: 1,
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								fontSize: 36
+							}
+						}]
+					},
+					legend: {
+						display: false,
+					},
+					tooltips: {
+						callbacks: {
+							label: tooltipItem => `${tooltipItem.yLabel}: ${tooltipItem.xLabel}`, 
+							title: () => null,
+						}
+					},
+					"animation": {
+						"duration": 1,
+						"onComplete": function() {
+							var chartInstance = this.chart,
+							ctx = chartInstance.ctx;
+
+							ctx.font = Chart.helpers.fontString(36, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+							ctx.textAlign = 'center';
+							ctx.textBaseline = 'middle';
+
+							this.data.datasets.forEach(function(dataset, i) {
+								var meta = chartInstance.controller.getDatasetMeta(i);
+								meta.data.forEach(function(bar, index) {
+									var data = dataset.data[index];
+									ctx.fillText(data, bar._model.base + (bar._model.x - bar._model.base) / 2, bar._model.y);
+								});
+							});
+
+							tmp = document.createElement("canvas");
+							tmp.width = document.getElementById('list').width;
+							tmp.height = document.getElementById('list').height;
+
+							destCtx = tmp.getContext('2d');
+
+							//create a rectangle with the desired color
+							destCtx.fillStyle = "#FFFFFF";
+							destCtx.fillRect(0,0,document.getElementById('list').width,document.getElementById('list').height);
+
+							//draw the original canvas onto the destination canvas
+							destCtx.drawImage(document.getElementById('list'), 0, 0);
+
+							//finally use the destinationCanvas.toDataURL() method to get the desired output;
+							document.getElementById('image').src = tmp.toDataURL();
+						}
+					},
+					bezierCurve : false,
+					responsive: false
+				}
+			});
+		}
+	</script>
+	<center>
+		<button onclick="document.getElementById('download').click()" style="width: 700px; height: 120x; font-size: 120px;">下載</button><br>
+		<img id="image" width="720px" height="1280px"/>
+		<a id="download" href="#" download="marathon.jpg" onclick="this.href=document.getElementById('image').src;" ></a>
+	</center>
+</body>
+</html>
