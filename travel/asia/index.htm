@@ -8,13 +8,13 @@
 	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
 	<meta http-equiv="refresh" content="3000"> <!--自動重新整理-->
 	<meta HTTP-EQUIV="EXPIRES" CONTENT="0">
-	
+
 	<!--作者資訊-->
 	<meta name="description" content="旅行與藝術網">
 	<meta name="author" content="Haru Zheng">
 	<meta name="keywords" content="旅遊行程,旅行,藝術,材料,成品">
 	<meta name="generator" content="VSCode 1.57.1">
-	
+
 	<!--網頁Tag資訊-->
 	<title>亞洲/アジア/Asia</title>
 	<link rel="shortcut icon" href="/img/web_icon.jpeg">
@@ -48,31 +48,30 @@
 		.btn {
 			margin-top: 30px;
 		}
-		
+
 		/* 改寬度 */
 		.container {
 			max-width: 95vw;
 		}
 	</style>
 	<style>
+		.btn {
+			margin-top: 5px;
+		}
+		.title-img {
+			max-width: 80vw;
+		}
+		.modal-dialog {
+			max-width: 100%;
+			max-height: 100%;
+		}
+
 		/*大螢幕*/
 		@media (min-width: 768px) {
 			body {
 				min-height: 75rem;
 				padding-top: 3.5rem;
 				background-color: #fff;
-			}
-			.btn {
-				margin-top: 5px;
-			}
-			.title-img {
-				max-width: 80vw;
-			}
-			.title-image-desktop {
-				display: block;
-			}
-			.title-image-mobile {
-				display: none;
 			}
 		}
 		/*直立手機*/
@@ -81,15 +80,6 @@
 				min-height: 75rem;
 				padding-top: 4.5rem;
 				background-color: #fff;
-			}
-			.btn {
-				margin-top: 5px;
-			}
-			.title-image-desktop {
-				display: none;
-			}
-			.title-image-mobile {
-				display: block;
 			}
 		}
 	</style>
@@ -111,7 +101,7 @@
 <!--JavaScript-->
 	<!--JQuery套件-->
 	<script src="/js/jquery-3.3.1.min.js"></script> 
-	
+
 	<!--Bootstrap套件-->
 	<script src="/js/bootstrap.bundle.js"></script>
 	<script src="/js/bootstrap.js"></script>
@@ -122,23 +112,74 @@
 		$(window).on('load', function() {
 			$("#remark").load("./remark.txt");
 			$("#footer").load("/footer.htm");
+			getImage();
 		});
 	</script>
 
 	<!--AJAX事件-->
 	<script>
-		// NOP
+		function getImage() {
+			var dir = "./files.php";
+			var fileextension = ".jpg";
+			document.getElementById('item_target').innerHTML = "";
+			$.ajax({
+				url: dir,
+				success: function (data) {
+					files_list = JSON.parse(data);
+					files_list.forEach(function (value) {
+						if (value.search(/.jpg/i) >= 0 && value.search(/title.jpg/i)) {
+							console.log(value + ': ' + value.search(/.jpg/i));
+							addImage(value);
+						}
+					});
+
+					console.log(data);
+				}
+			});
+		}
 	</script>
 
 	<!--動態新增物件事件-->
 	<script>
-		// NOP
+		function addImage(path) {
+			path = './' + path;
+			var item_text = '\
+			<div class="col-md-4">\
+				<div class="card mb-4 shadow-sm">\
+					<svg aria-label="Placeholder: Thumbnail" class="bd-placeholder-img card-img-top" height="500" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg">\
+						<image height="500" width="100%" xlink:href="' + path + '" onclick="showModal(\'' + path + '\')">\
+						</image>\
+					</svg>\
+					<div class="card-body">\
+						<div class="container">\
+							<center>\
+								<button class="btn btn-sm btn-outline-secondary" type="button" onclick="window.open(\'https://line.me/ti/p/\', \'_blank\');">\
+									Line\
+								</button>\
+								<button class="btn btn-sm btn-outline-secondary" type="button" onclick="window.open(\'mailto:chingmei2@gmail.com\', \'_blank\');">\
+									Email\
+								</button>\
+							</center>\
+						</div>\
+					</div>\
+				</div>\
+			</div>';
+			document.getElementById('item_target').innerHTML += item_text;
+		}
 	</script>
 
+	<!--顯示大圖-->
+	<script>
+		function showModal(img_path) {
+			$('#bigimgsrc')[0].src = img_path;
+			$('#bigimg').modal('show');
+		}
+	</script>
 	<!--其他功能函式-->
 	<script>
 		// NOP
 	</script>
+
 </head>
 
 <body>
@@ -192,8 +233,8 @@
 						-->
 						<div class="col-md-4">
 							<div class="card mb-4 shadow-sm">
-								<svg aria-label="Placeholder: Thumbnail" class="bd-placeholder-img card-img-top" height="225" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg">
-									<image height="225" width="100%" xlink:href="./img/p1.jpg">
+								<svg aria-label="Placeholder: Thumbnail" class="bd-placeholder-img card-img-top" height="500" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg">
+									<image height="500" width="100%" xlink:href="./img/p1.jpg" onclick="showModal('./img/p1.jpg')">
 									</image>
 								</svg>
 								<div class="card-body">
@@ -216,10 +257,25 @@
 		</main>
 	</div>
 
+	<!--放大圖-->
+	<div class="modal" tabindex="-1" role="dialog" id="bigimg">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<img src="./title.jpg" height="100%" width="100%" id="bigimgsrc"  onclick="$('#bigimg').modal('hide')"/>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!--回到頂部-->
 	<button type="button" class="btn btn-dark backbtn" onclick="location.href='#'">Top</button>
 
 	<!--頁尾-->
 	<div id="footer"></div>
+
 </body>
 </html>
