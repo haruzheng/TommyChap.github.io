@@ -55,25 +55,22 @@
 		}
 	</style>
 	<style>
-		#book_target {
+		#button_target {
 			padding-top: 20px;
 		}
 		.card-body {
 			min-height: calc(10vh);
-			line-height: calc(10vh);
-			margin-bottom: 10px;
+			margin-bottom: 5px;
 			text-align: center;
 			font-weight: bold;
 			font-size: 2vw;
 			z-index: 1;
-			color: #ffffffc0;
-		}
-		.enter-pic {
-			max-height: calc(70vh);
+			color: #555555;
 		}
 		.enter {
 			background-color: #68696950;
 			cursor: pointer;
+			border-radius: 100%;
 		}
 		/*小螢幕*/
 		@media (min-width: 768px) {
@@ -83,9 +80,6 @@
 				z-index: -1;
 				position: fixed;
 			}
-			.enter-pic {
-				max-height: calc(50vh);
-			}
 		}
 		/*中螢幕*/
 		@media (min-width: 1025px) {
@@ -94,9 +88,6 @@
 				height: 900px; 
 				z-index: -1;
 				position: fixed;
-			}
-			.enter-pic {
-				max-height: calc(60vh);
 			}
 		}
 		/*大螢幕*/
@@ -110,16 +101,11 @@
 		}
 		/*直立手機*/
 		@media (max-width: 768px) {
-			#book_target {
-				padding-top: 50px;
+			#button_target {
+				padding-top: 30px;
 			}
 			.card-body {
-				min-height: calc((100vh - 450px) / 2);
-				line-height: calc((100vh - 450px) / 2);
 				margin-bottom: 10px;
-			}
-			.enter-pic {
-				max-height: calc(70vh / 2);
 			}
 			#background {
 				width: 100vw;
@@ -143,6 +129,9 @@
 		// 全域變數宣告區
 		$(window).on('load', function() {
 			$("#footer").load("/footer.htm");
+			for (i = 0; i < document.getElementsByClassName('enter').length; i++) {
+				setColor(document.getElementsByClassName('enter')[i]);
+			}
 		});
 	</script>
 
@@ -158,7 +147,12 @@
 
 	<!--其他功能函式-->
 	<script>
-		// NOP
+		var bgcolors = ['#ff000050', '#00ff0050', '#0000ff50',
+				'#a00fa050', '#00a0f050', '#ff00a050',
+				'#00ffa050', '#a000ff50', '#ffa00050'];
+		function setColor(target) {
+			target.style.backgroundColor = bgcolors[Math.floor(Math.random() * bgcolors.length)];
+		}
 	</script>
 </head>
 
@@ -190,10 +184,10 @@
 			<div id="background"></div>
 			
 			<div class="container">
-				<div class="row" id="book_target">
+				<div class="row" id="button_target">
 					<div class="col-md-4" onclick="javascript:document.location.href='./asia'">
 						<div class="enter">
-							<div class="card-body">
+							<div class="card-body" style="border: radius 1000px;">
 								亞洲<br>アジア<br>Asia
 							</div>
 						</div>
@@ -244,6 +238,13 @@
 						<div class="enter">
 							<div class="card-body">
 								台灣<br>台湾<br>Taiwan
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4" onclick="javascript:document.location.href='./travel_medical_services'">
+						<div class="enter">
+							<div class="card-body">
+								旅行醫療服務<br>旅行医療サービス<br>Travel Medical Services
 							</div>
 						</div>
 					</div>
