@@ -16,7 +16,7 @@
 	<meta name="generator" content="VSCode 1.57.1">
 
 	<!--網頁Tag資訊-->
-	<title>亞洲/アジア/Asia</title>
+	<title>相片/写真/Pictures</title>
 	<link rel="shortcut icon" href="/img/web_icon.jpeg">
 
 	<!-- Bootstrap core CSS -->
@@ -158,11 +158,7 @@
 	<script>
 		function addImage(path) {
 			id = path.split('.')[0];
-			doc = './' + id + ".doc";
-			docx = './' + id + ".docx";
-			ppt = './' + id + ".ppt";
-			pptx = './' + id + ".pptx";
-			pdf = './' + id + ".pdf";
+			detail = './' + id + ".txt";
 			path = './' + path;
 			var item_text = '\
 			<div class="col-md-4">\
@@ -174,35 +170,31 @@
 					<div class="card-body">\
 						<div class="container">\
 							<center id=\'' + id + '\'>\
-								<button class="btn btn-sm btn-outline-secondary" type="button" onclick="window.open(\'https://line.me/ti/p/0uf4YJbxsV\', \'_blank\');">\
-									Line\
-								</button>\
-								<button class="btn btn-sm btn-outline-secondary" type="button" onclick="window.open(\'mailto:chingmei2@gmail.com\', \'_blank\');">\
-									Email\
-								</button>\
 							</center>\
 						</div>\
 					</div>\
 				</div>\
 			</div>';
 			document.getElementById('item_target').innerHTML += item_text;
-			addButton(id, docx);
-			addButton(id, doc);
-			addButton(id, pptx);
-			addButton(id, ppt);
-			addButton(id, pdf);
+			addDetail(id, detail);
 		}
  
-		function addButton(id, path) {
+		function addDetail(id, path) {
 			if (files_list.find(element => element == path.split('./')[1]) != undefined) {
-			//$.get(path)
-			//	.done(function() {	// exists code
-					console.log(path + " is exist");
-					document.getElementById(id).innerHTML += '\
-								<a class="btn btn-sm btn-outline-secondary" type="button" onclick="window.open(\'' + path + '\', \'_blank\');">\
-									Detail(' + path.split('.')[2] + ')\
-								</a>';
-			//	});
+				console.log(path + " is exist");
+				$.ajax({
+					url: path,
+					success: function (data) {
+						document.getElementById(id).innerHTML += '\
+										<p class="bg-info" id="' + id + '_txt">\
+											' + data + '\
+										</p>';
+					}
+				});
+			} else {
+				document.getElementById(id).innerHTML += '\
+										<p class="bg-info" id="' + id + '_txt">&nbsp\
+										</p>';
 			}
 		}
 	</script>

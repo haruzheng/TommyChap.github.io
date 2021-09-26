@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<!-- saved from url=(0056)https://bootstrap.hexschool.com/docs/4.2/examples/album/ -->
+<html lang="zh-tw">
+<head>
+	<!--網頁標頭設定-->
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+	<meta http-equiv="refresh" content="3000"> <!--自動重新整理-->
+	<meta HTTP-EQUIV="EXPIRES" CONTENT="0">
+
+	<!--作者資訊-->
+	<meta name="description" content="旅行與藝術網">
+	<meta name="author" content="Haru Zheng">
+	<meta name="keywords" content="旅遊行程,旅行,藝術,材料,成品">
+	<meta name="generator" content="VSCode 1.57.1">
+
+	<!--網頁Tag資訊-->
+	<title>相片/写真/Pictures</title>
+	<link rel="shortcut icon" href="/img/web_icon.jpeg">
+
+	<!-- Bootstrap core CSS -->
+	<link href="/css/bootstrap.css" rel="stylesheet">
+	<style>
+	       .bd-placeholder-img {
+	           font-size: 1.125rem;
+	           text-anchor: middle;
+	       }
+
+	     @media (min-width: 768px) {
+	           .bd-placeholder-img-lg {
+	               font-size: 3.5rem;
+	           }
+	     }
+	</style>
+	<!--Album主題CSS-->
+	<link href="/css/album.css" rel="stylesheet">
+	<style id="parrottalks-notetaker-style" type="text/css">
+	       	html>body.evernote_clearly__before_visible #parrottalks-notetaker>iframe, html>body.clearlyBeforeVisible #parrottalks-notetaker>iframe:not(#evernoteGlobalTools):not(#evernoteOptionsPage):not(#evernoteClearlyArticle) {
+	        	visibility: visible !important;
+	       	}
+	       	.evernote_clearly__before_visible #evernote_clearly__reformat, .clearlyBeforeVisible #evernoteClearlyArticle {
+	        	z-index: 2147483646 !important;
+		}
+		body {
+			padding-top: 3.5rem;
+		}
+		.btn {
+			margin-top: 30px;
+		}
+
+		/* 改寬度 */
+		.container {
+			max-width: 95vw;
+		}
+	</style>
+	<style>
+		.btn {
+			margin-top: 5px;
+		}
+		.title-img {
+			max-width: 80vw;
+		}
+		.modal-dialog {
+			max-width: 100%;
+			max-height: 100%;
+		}
+
+		/*大螢幕*/
+		@media (min-width: 768px) {
+			body {
+				min-height: 75rem;
+				padding-top: 3.5rem;
+				background-color: #fff;
+			}
+		}
+		/*直立手機*/
+		@media (max-width: 768px) {
+			body {
+				min-height: 75rem;
+				padding-top: 4.5rem;
+				background-color: #fff;
+			}
+		}
+	</style>
+	<!--回到頂部CSS-->
+	<style>
+		.backbtn {
+			/*定位*/
+			position: fixed;
+			bottom: 10px;
+			right: 10px;
+			/*園角*/
+			border-radius: 50px;
+			/*按鈕大小*/
+			width: 50px;
+			height: 50px;
+		}
+	</style>
+
+<!--JavaScript-->
+	<!--JQuery套件-->
+	<script src="/js/jquery-3.3.1.min.js"></script> 
+
+	<!--Bootstrap套件-->
+	<script src="/js/bootstrap.bundle.js"></script>
+	<script src="/js/bootstrap.js"></script>
+
+	<!--網頁載入事件-->
+	<script type="text/javascript">
+		// 全域變數宣告區
+		$(window).on('load', function() {
+			$("#remark").load("./remark.txt");
+			$("#footer").load("/footer.htm");
+			getPDF();
+		});
+	</script>
+
+	<!--AJAX事件-->
+	<script>
+		var files_list;
+		function getPDF() {
+			var dir = "./files.php";
+			var fileextension = ".pdf";
+			document.getElementById('item_target').innerHTML = "";
+			$.ajax({
+				url: dir,
+				success: function (data) {
+					files_list = JSON.parse(data);
+					files_list.forEach(function (value) {
+						if (value.search(/.pdf/i) >= 0) {
+							console.log(value + ': ' + value.search(/.pdf/i));
+							addPDF(value);
+						}
+					});
+
+					console.log(data);
+				}
+			});
+		}
+	</script>
+
+	<!--動態新增物件事件-->
+	<script>
+		function addPDF(path) {
+			id = path.split('.')[0];
+			path = './' + path;
+			var item_text = '\
+			<div class="col-md-4">\
+				<div class="card mb-4 shadow-sm">\
+					<svg aria-label="Placeholder: Thumbnail" class="bd-placeholder-img card-img-top" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg">\
+						<image height="100px" width="100%" xlink:href="./pdf.png" onclick="window.open(\'' + path + '\')">\
+						</image>\
+					</svg>\
+					<div class="card-body">\
+						<div class="container">\
+							<center id=\'' + id + '\'>\
+								' + path + '\
+							</center>\
+						</div>\
+					</div>\
+				</div>\
+			</div>';
+			document.getElementById('item_target').innerHTML += item_text;
+		}
+ 
+		function addDetail(id, path) {
+			if (files_list.find(element => element == path.split('./')[1]) != undefined) {
+				console.log(path + " is exist");
+				$.ajax({
+					url: path,
+					success: function (data) {
+						document.getElementById(id).innerHTML += '\
+										<p class="bg-info" id="' + id + '_txt">\
+											' + data + '\
+										</p>';
+					}
+				});
+			} else {
+				document.getElementById(id).innerHTML += '\
+										<p class="bg-info" id="' + id + '_txt">&nbsp\
+										</p>';
+			}
+		}
+	</script>
+
+	<!--顯示大圖-->
+	<script>
+		function showModal(img_path) {
+			$('#bigimgsrc')[0].src = img_path;
+			$('#bigimg').modal('show');
+		}
+	</script>
+	<!--其他功能函式-->
+	<script>
+		// NOP
+	</script>
+
+</head>
+
+<body>
+	<!--網頁頂端標題-->
+	<header>
+		<div class="navbar fixed-top navbar-dark bg-dark shadow-sm">
+			<div class="container d-flex justify-content-between titlewithphone">
+				<a class="navbar-brand d-flex align-items-center" href="/">
+					<svg aria-hidden="true" class="mr-2" height="20" viewbox="0 0 24 24" width="20" xmlns="https://www.w3.org/2000/svg">
+						<image height="24" width="100%" xlink:href="/img/web_icon.jpeg">
+						</image>
+					</svg>
+					<strong>Travel & Arts</strong>
+				</a>
+				<a class="navbar-toggler" href="http://www.whatisyourbag.mymailer.com.tw">
+					<center>
+						舊網頁<br>Old Site
+					</center>
+				</a>
+			</div>
+		</div>
+	</header>
+
+	<!--主要的Body-->
+	<div id="main_body">
+		<!--網頁主體內容-->
+		<main role="main" class="main-pos">
+			<!--Title Image-->
+			<section class="text-center">
+				<div class="container">
+					<h1 class="jumbotron-heading">
+						<img src="./title.jpg" class="title-img" />
+					</h1>
+				</div>
+			</section>
+			<div class="album py-5 bg-light">
+				<!--公告-->
+				<div class="container">
+					<nav class="nav">
+						<font color='red'>
+							<p id="remark"></p>
+						</font>
+					</nav>
+				</div>
+
+				<!--資訊列表-->
+				<div class="container">
+					<div class="row" id="item_target">
+						<!--
+							自動新增書目
+						-->
+						<div class="col-md-4">
+							<div class="card mb-4 shadow-sm">
+								<svg aria-label="Placeholder: Thumbnail" class="bd-placeholder-img card-img-top" height="500" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg">
+									<image height="500" width="100%" xlink:href="./title.jpg" onclick="showModal('./img/p1.jpg')">
+									</image>
+								</svg>
+								<div class="card-body">
+									<div class="container">
+										<center>
+											<button class="btn btn-sm btn-outline-secondary" type="button" onclick="window.open('https://line.me/ti/p/', '_blank');">
+												Line
+											</button>
+											<button class="btn btn-sm btn-outline-secondary" type="button" onclick="window.open('mailto:chingmei2@gmail.com', '_blank');">
+												Email
+											</button>
+										</center>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+
+	<!--放大圖-->
+	<div class="modal" tabindex="-1" role="dialog" id="bigimg">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<img src="./title.jpg" height="100%" width="100%" id="bigimgsrc"  onclick="$('#bigimg').modal('hide')"/>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--回到頂部-->
+	<button type="button" class="btn btn-dark backbtn" onclick="location.href='#'">Top</button>
+
+	<!--頁尾-->
+	<div id="footer"></div>
+
+</body>
+</html>
