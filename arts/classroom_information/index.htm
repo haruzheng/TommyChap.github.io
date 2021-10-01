@@ -16,7 +16,7 @@
 	<meta name="generator" content="VSCode 1.57.1">
 
 	<!--網頁Tag資訊-->
-	<title>旅行醫療服務/旅行医療サービス/Travel Medical Services</title>
+	<title>教學資訊/教育情報/Classroom Information</title>
 	<link rel="shortcut icon" href="/img/web_icon.jpeg">
 
 	<!-- Bootstrap core CSS -->
@@ -128,9 +128,9 @@
 				success: function (data) {
 					files_list = JSON.parse(data);
 					files_list.forEach(function (value) {
-						if (value.search(/.pdf/i) >= 0) {
-							console.log(value + ': ' + value.search(/.pdf/i));
-							addPDF(value);
+						if (value.search(/.txt/i) >= 0 && value.search(/remark.txt/i)) {
+							console.log(value + ': ' + value.search(/.txt/i));
+							addTXT(value);
 						}
 					});
 
@@ -142,26 +142,22 @@
 
 	<!--動態新增物件事件-->
 	<script>
-		function addPDF(path) {
+		function addTXT(path) {
 			id = path.split('.')[0];
 			path = './' + path;
 			var item_text = '\
-			<div class="col-md-4">\
+			<div class="col-md-12">\
 				<div class="card mb-4 shadow-sm">\
-					<svg aria-label="Placeholder: Thumbnail" class="bd-placeholder-img card-img-top" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg">\
-						<image height="100px" width="100%" xlink:href="./pdf.png" onclick="window.open(\'' + path + '\')">\
-						</image>\
-					</svg>\
 					<div class="card-body">\
 						<div class="container">\
 							<center id=\'' + id + '\'>\
-								' + path + '\
 							</center>\
 						</div>\
 					</div>\
 				</div>\
 			</div>';
 			document.getElementById('item_target').innerHTML += item_text;
+			addDetail(id, path)
 		}
  
 		function addDetail(id, path) {

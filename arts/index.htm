@@ -55,23 +55,25 @@
 		}
 	</style>
 	<style>
-		#book_target {
+		#button_target {
 			padding-top: 20px;
 		}
 		.card-body {
-			min-height: calc(100vh - 400px);
+			min-height: calc(10vh);
+			margin-bottom: 5px;
 			text-align: center;
 			font-weight: bold;
-			font-size: 5vw;
+			font-size: 2vw;
 			z-index: 1;
-			color: #ffffffc0;
-		}
-		.enter-pic {
-			max-height: calc(70vh);
+			color: #555555;
 		}
 		.enter {
 			background-color: #68696950;
 			cursor: pointer;
+			border-radius: 100%;
+		}
+		.enter:hover {
+			opacity: 0.3;
 		}
 		/*小螢幕*/
 		@media (min-width: 768px) {
@@ -81,9 +83,6 @@
 				z-index: -1;
 				position: fixed;
 			}
-			.enter-pic {
-				max-height: calc(50vh);
-			}
 		}
 		/*中螢幕*/
 		@media (min-width: 1025px) {
@@ -92,9 +91,6 @@
 				height: 900px; 
 				z-index: -1;
 				position: fixed;
-			}
-			.enter-pic {
-				max-height: calc(60vh);
 			}
 		}
 		/*大螢幕*/
@@ -108,16 +104,11 @@
 		}
 		/*直立手機*/
 		@media (max-width: 768px) {
-			#book_target {
-				padding-top: 50px;
+			#button_target {
+				padding-top: 30px;
 			}
 			.card-body {
-				min-height: calc((100vh - 450px) / 2);
-				line-height: calc((100vh - 450px) / 2);
 				margin-bottom: 10px;
-			}
-			.enter-pic {
-				max-height: calc(70vh / 2);
 			}
 			#background {
 				width: 100vw;
@@ -141,6 +132,9 @@
 		// 全域變數宣告區
 		$(window).on('load', function() {
 			$("#footer").load("/footer.htm");
+			for (i = 0; i < document.getElementsByClassName('enter').length; i++) {
+				setColor(document.getElementsByClassName('enter')[i]);
+			}
 		});
 	</script>
 
@@ -156,7 +150,12 @@
 
 	<!--其他功能函式-->
 	<script>
-		// NOP
+		var bgcolors = ['#ff000050', '#00ff0050', '#0000ff50',
+				'#a00fa050', '#00a0f050', '#ff00a050',
+				'#00ffa050', '#a000ff50', '#ffa00050'];
+		function setColor(target) {
+			target.style.backgroundColor = bgcolors[Math.floor(Math.random() * bgcolors.length)];
+		}
 	</script>
 </head>
 
@@ -183,42 +182,99 @@
 
 	<!--主要的Body-->
 	<div id="main_body">
-		<main role="main" class="main-pos">
-			<p>
-				<H1>
-					<center>
-					施工中
-					</center>
-				</H1>
-			</p>
-		</main>
-		<!--網頁主體內容--
+		<!--網頁主體內容-->
 		<main role="main" class="main-pos">
 			<div id="background"></div>
 			
 			<div class="container">
-				<div class="row" id="book_target">
-					<div class="col-md-6" onclick="javascript:document.location.href='./travel'">
+				<div class="row" id="button_target">
+					<div class="col-md-4" onclick="javascript:document.location.href='./accessories'">
 						<div class="enter">
 							<div class="card-body">
-								<img src="./travel_enter.jpg" class="enter-pic"/>
-								<br>
-								旅行 travel
+								飾品<br>アクセサリー<br>Accessories
 							</div>
 						</div>
 					</div>
-					<div class="col-md-6" onclick="javascript:document.location.href='./arts'">
+					<div class="col-md-4" onclick="javascript:document.location.href='./color_dying'">
 						<div class="enter">
 							<div class="card-body">
-								<img src="./arts_enter.jpg" class="enter-pic"/>
-								<br>
-								芸術 arts
+								彩染<br>カラーリング<br>Color Dying
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4" onclick="javascript:document.location.href='./hand_made_arts'">
+						<div class="enter">
+							<div class="card-body">
+								手作藝術<br>ハンドメイドアート<br>Hand Made Arts
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4" onclick="javascript:document.location.href='./decoupage'">
+						<div class="enter">
+							<div class="card-body">
+								碟古巴特<br>皿クワット<br>Decoupage
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4" onclick="javascript:document.location.href='./kimono_bags'">
+						<div class="enter">
+							<div class="card-body">
+								和服包<br>着物のかばん<br>Kimono Bags
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4" onclick="javascript:document.location.href='./leather_jackets'">
+						<div class="enter">
+							<div class="card-body">
+								皮衣<br>革衣<br>Leather Jackets
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4" onclick="javascript:document.location.href='./special_order_clothes'">
+						<div class="enter">
+							<div class="card-body">
+								訂作服<br>オーダーメイド服<br>Special Order Clothes
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4" onclick="javascript:document.location.href='./leather_waves'">
+						<div class="enter">
+							<div class="card-body">
+								皮編<br>革編物<br>Leather Waves
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4" onclick="javascript:document.location.href='./paper_painting'">
+						<div class="enter">
+							<div class="card-body">
+								撕畫<br>ちぎり絵<br>Paper Painting
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4" onclick="javascript:document.location.href='./paper_painting_bags'">
+						<div class="enter">
+							<div class="card-body">
+								撕畫包<br>ちぎり絵かばん<br>Paper Painting Bags
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4" onclick="javascript:document.location.href='./zipper_bags'">
+						<div class="enter">
+							<div class="card-body">
+								拉鍊包<br>ジッパーバッグ<br>Zipper Bags
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4" onclick="javascript:document.location.href='./classroom_information'">
+						<div class="enter">
+							<div class="card-body">
+								教學資訊<br>教育情報<br>Classroom Information
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</main>->
+		</main>
 	</div>
 
 	<!--頁尾-->
