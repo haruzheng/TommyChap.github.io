@@ -133,7 +133,7 @@
 		$(window).on('load', function() {
 			$("#footer").load("/footer.htm");
 			for (i = 0; i < document.getElementsByClassName('enter').length; i++) {
-				setColor(document.getElementsByClassName('enter')[i]);
+				setColor(document.getElementsByClassName('enter')[i], i);
 			}
 		});
 	</script>
@@ -152,9 +152,11 @@
 	<script>
 		var bgcolors = ['#ff000050', '#00ff0050', '#0000ff50',
 				'#a00fa050', '#00a0f050', '#ff00a050',
-				'#00ffa050', '#a000ff50', '#ffa00050'];
-		function setColor(target) {
-			target.style.backgroundColor = bgcolors[Math.floor(Math.random() * bgcolors.length)];
+				'#00ffa050', '#a000ff50', '#ffa00050',
+				'#a0f0f050', '#f0a0f050', '#f0f0a050'];
+		function setColor(target, index) {
+			//target.style.backgroundColor = bgcolors[Math.floor(Math.random() * bgcolors.length)];
+			target.style.backgroundColor = bgcolors[index];
 		}
 	</script>
 </head>
