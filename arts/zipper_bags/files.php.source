@@ -1,0 +1,6 @@
+<?php
+        $dir    = './';
+        $files = scandir($dir);
+        print_r($files);
+        echo json_encode($files);
+?>
