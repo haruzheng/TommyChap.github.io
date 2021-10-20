@@ -206,14 +206,14 @@
 					url: path,
 					success: function (data) {
 						document.getElementById(id).innerHTML = '\
-										<p class="bg-info" id="' + id + '_txt">\
+										<p style="background-color: #78FF78;" id="' + id + '_txt">\
 											' + data + '\
 										</p>' + document.getElementById(id).innerHTML;
 					}
 				});
 			} else {
 				document.getElementById(id).innerHTML = '\
-										<p class="bg-info" id="' + id + '_txt">&nbsp\
+										<p style="background-color: #78FF78;" id="' + id + '_txt">&nbsp\
 										</p>' + document.getElementById(id).innerHTML;
 			}
 		}
