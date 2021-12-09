@@ -22,11 +22,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 	var ws;
 	var connected = false;
 
+	window.onload=function(){
+		let urlParams = new URLSearchParams(window.location.search);
+		if (urlParams.has('ws')) {
+			document.getElementById('txtServer').value = "ws://" + urlParams.get('ws') + ":8080";
+		}
+	}
 	function scoll_to_bottom()
 	{
 		var logTa = document.getElementById("taLog")
 		logTa.scrollTop = logTa.scrollHeight;
-    }
+	}
 
 	/* Establish connection. */
 	function doConnect(addr)
