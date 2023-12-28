@@ -1,0 +1,25 @@
+<script src="https://code.jquery.com/jquery-3.4.1.js"
+integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
+<script>
+
+function test(url) {
+	return fetch(url)
+	.then((data) => {
+		return true;
+	})
+	.then((data) => {
+		console.log(data); 
+	});
+}
+let ret = {};
+
+if (test("https://gitweb.harutw.tw/AsiaYo.htm?source=USD&target=JPY&amount=$1,525"))
+	ret["test"] = "Pass";
+else
+	ret["test"] = "Fail";
+
+console.log(ret);
+window.onload=function(){
+	document.body.innerText = JSON.stringify(ret);
+}
+</script>
